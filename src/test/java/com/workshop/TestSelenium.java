@@ -9,16 +9,20 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class TestSelenium {
 
+    private String today;
+
     @Test
-    public void test() throws InterruptedException {
+    public void searchFlights() throws InterruptedException {
         String departureCity = "Medellin";
         String destinationCity = "Bogota";
-        String month = "Marzo 2021";
-        String day = "23";
+        today = getCurrentDay();
+        System.out.println("Today's number: " + today + "\n");
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
@@ -32,20 +36,32 @@ public class TestSelenium {
         WebElement departureDate = driver.findElement(By.id("criteria-dates-from"));
         WebElement searchButton = driver.findElement(By.id("criteria-search-button-desktop"));
         oneWayCheckbox.click();
-        // departure.sendKeys("Medellin" + Keys.ENTER);
+        departure.sendKeys(departureCity + Keys.ENTER);
         destination.sendKeys(destinationCity + Keys.ENTER);
         departureDate.click();
         Thread.sleep(2000);
-        String text = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[3]/div[2]/div[2]/" +
-                    "div/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div")).getText();
-
-
-
-        // searchButton.click();
-        // oneWayCheckbox.click();
-
-
+        WebElement dateWidgetFrom = driver.findElement(By.xpath("//*[@id='month-list']/div[1]/div[2]/table/tbody"));
+        List<WebElement> columns = dateWidgetFrom.findElements(By.tagName("td"));
+        for (WebElement cell : columns) {
+            if (cell.getText().equals(today)) {
+                cell.click();
+                break;
+            }
+        }
+        // String text = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[3]/div[2]/div[2]/" +
+        // "div/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div")).getText();
+        searchButton.click();
         // driver.close();
         // driver.quit();
     }
+
+    private String getCurrentDay() {
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int todayInt = calendar.get(Calendar.DAY_OF_MONTH);
+        String todayStr = Integer.toString(todayInt);
+        return todayStr;
+    }
 }
+
+
+
