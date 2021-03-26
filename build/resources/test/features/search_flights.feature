@@ -3,7 +3,7 @@ Feature: Search flights
   I want to search for flights
   TO pick a flight
 
-  Scenario: Search for the lower flight with departure Medellin and destination Bogota
+  Scenario: Search for the cheapest flight with departure Medellin and destination Bogota
     Given Daniel wants to search for flights
     When  Daniel enters departure Medellin and destination Bogota
-    Then Daniel should pick up the lower flight
+    Then Daniel should pick up the cheapest flight

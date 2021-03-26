@@ -1,10 +1,11 @@
 package com.workshop.steps;
 
+import com.workshop.userinterface.FlightResultPage;
 import net.thucydides.core.annotations.Step;
 
 
 public class FlightResult {
-    FlightResult vivaAir;
+    FlightResultPage vivaAir;
 
     @Step
     public void clickCheapestFlight(){

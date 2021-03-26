@@ -30,7 +30,7 @@ public class SearchFlightStepDefinitions {
         user.searchFlights();
     }
 
-    @Then("^Daniel should pick up the lower flight$")
+    @Then("^Daniel should pick up the cheapest flight$")
     public void pickLowerFlight() {
         userFlightResult.clickCheapestFlight();
         userFlightResult.clickContinueButton();

@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import java.util.Collections;
 import java.util.List;
 
-public class FlightResult extends PageObject {
+public class FlightResultPage extends PageObject {
     private List<WebElement> flightPrices;
     @FindBy(xpath = "/html/body/div[1]/div[4]/div[3]/div[1]/div/div[2]/div/div[3]/div[2]/button")
     private WebElementFacade continueButton;
@@ -22,12 +22,12 @@ public class FlightResult extends PageObject {
     public void clickCheapestFlight(){
         WebElement cheapestFlightElement = null;
         Integer cheapestFlight = null;
-        List<WebElement> flights = flightPrices();
+        this.flightPrices = flightPrices();
         List<String> textFlightPrices = Util.getTextList(flightPrices);
         textFlightPrices = Util.removeCharacters(textFlightPrices);
         List<Integer> flightPricesCOP = Util.convertStringListToIntegerList(textFlightPrices);
         cheapestFlight = Collections.min(flightPricesCOP);
-        cheapestFlightElement = flights.get(flightPricesCOP.indexOf(cheapestFlight));
+        cheapestFlightElement = flightPrices.get(flightPricesCOP.indexOf(cheapestFlight));
         cheapestFlightElement.click();
     }
 

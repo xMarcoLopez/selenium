@@ -45,8 +45,8 @@ public class Util {
     public static List<String>removeCharacters(List<String> list){
         List <String> newList = new ArrayList<String>();
         newList = removeCharacter(list, "COP");
-        newList = removeCharacter(list, ",");
-        newList = removeCharacter(list, " ");
+        newList = removeCharacter(newList, ",");
+        newList = removeCharacter(newList, " ");
         return newList;
     }
 
