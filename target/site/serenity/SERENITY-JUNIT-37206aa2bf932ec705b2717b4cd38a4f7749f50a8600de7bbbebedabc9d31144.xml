@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite errors="1" failures="0" name="Search flights" skipped="0" tests="1" time="28.74" timestamp="2021-03-26 09:28:30"><testcase name="Search for the lower flight with departure Medellin and destination Bogota"><error type="java.lang.NullPointerException"/><system-err>null&#13;
+com.workshop.steps.FlightResult.clickCheapestFlight(FlightResult.java:11)&#13;
+com.workshop.stepdefinitions.SearchFlightStepDefinitions.pickLowerFlight(SearchFlightStepDefinitions.java:35)&#13;
+✽.Daniel should pick up the lower flight(src/test/resources/features/search_flights.feature:9)&#13;
+</system-err></testcase></testsuite>

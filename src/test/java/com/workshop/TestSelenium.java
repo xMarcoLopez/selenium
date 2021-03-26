@@ -1,5 +1,6 @@
 package com.workshop;
 
+import com.workshop.utils.Util;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,10 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.time.ZoneId;
+import java.util.*;
 
 public class TestSelenium {
 
@@ -27,7 +26,7 @@ public class TestSelenium {
         WebDriver driver = new ChromeDriver(options);
         driver.navigate().to("https://www.vivaair.com");
         Thread.sleep(4000);
-        driver.findElement(By.id("onesignal-slidedown-cancel-button")).click();
+        // driver.findElement(By.id("onesignal-slidedown-cancel-button")).click();
         WebElement oneWayCheckbox = driver.findElement(By.xpath("//*[@id=\"criteria\"]/div/div[1]/label/span[2]"));
         WebElement departure = driver.findElement(By.id("criteria-airport-select-departure-input"));
         WebElement destination = driver.findElement(By.id("criteria-airport-select-destination-input"));
@@ -43,6 +42,31 @@ public class TestSelenium {
         executor.executeScript("arguments[0].click();", dateButton);
         Thread.sleep(4000);
         searchButton.click();
+        Thread.sleep(5000);
+        List <WebElement> flights = driver.findElements(By.className("from-price"));
+        List <String> flightsText = new ArrayList<String>();
+        for (WebElement flightPrice : flights){
+            flightsText.add(flightPrice.getText());
+        }
+        List <String> flightsText2 = new ArrayList<String>();
+        for(String flightText : flightsText){
+            flightsText2.add(flightText.replaceAll("COP", ""));
+        }
+        List <String> flightsText3 = new ArrayList<String>();
+        for(String flightText : flightsText2){
+            flightsText3.add(flightText.replaceAll(",", ""));
+        }
+
+        flightsText3 = Util.removeCharacter(flightsText3, " ");
+        List<Integer> flightPrices = Util.convertStringListToIntegerList(flightsText3);
+        Integer cheapestFlight = Collections.min(flightPrices);
+        flights.get(flightPrices.indexOf(cheapestFlight)).click();
+        Thread.sleep(4000);
+        WebElement continueButton = driver.findElement(By.xpath("/html/body/div[1]/div[4]/div[3]/div[1]/div/div[2]/div/div[3]/div[2]/button"));
+        Thread.sleep(4000);
+        // Util.jsClick(continueButton);
+        continueButton.click();
+
         // driver.close();
         // driver.quit();
     }
@@ -50,7 +74,8 @@ public class TestSelenium {
     private String getDate() {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String date = simpleDateFormat.format(new Date());
+        Date currentDate = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        String date = simpleDateFormat.format(currentDate);
         return date;
     }
 }
